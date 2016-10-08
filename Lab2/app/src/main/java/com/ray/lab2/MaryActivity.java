@@ -19,12 +19,13 @@ public class MaryActivity extends AppCompatActivity {
         Toast.makeText(MaryActivity.this, Integer.toString(num), Toast.LENGTH_SHORT).show();
     }
 
+    //返回键点击事件
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         Intent intent = new Intent(MaryActivity.this,JackActivity.class);
         String parity = num % 2 == 0 ?"偶数":"奇数";
         intent.putExtra("parity",parity);
         setResult(RESULT_OK, intent);
+        finish();
     }
 }
