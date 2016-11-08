@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/visibility_layout"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:weightSum="1">
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/sceneryTitle"
+              android:gravity="center"
+              android:padding="10dp"
+              android:textSize="20sp"/>
+
+    <ImageView android:layout_width="match_parent"
+               android:layout_height="1dp"
+               android:scaleType="fitXY"
+               android:src="@drawable/split_line"
+               android:contentDescription="分割线"/>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:id="@+id/sceneryContent"
+              android:padding="15dp"
+              android:textSize="18sp"/>
+
+    <ImageView android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:id="@+id/sceneryImage"
+               android:contentDescription="风景照"/>
+
+
+
+
+
+
+</LinearLayout>
