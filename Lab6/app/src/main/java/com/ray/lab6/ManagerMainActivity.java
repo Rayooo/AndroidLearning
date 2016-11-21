@@ -1,13 +1,10 @@
 package com.ray.lab6;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.internal.widget.AdapterViewCompat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,6 +21,7 @@ public class ManagerMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_main);
         showUser(null);
+        //todo 添加学生或是添加管理员结束后能自动刷新列表
     }
 
     public void showUser(View v){
@@ -88,7 +86,8 @@ public class ManagerMainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.addNewUser:
-                //todo 新建用户
+                Intent intent = new Intent(this,addUserActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.addNewStudent:
                 //todo 新建学生
@@ -97,12 +96,13 @@ public class ManagerMainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-}
 
-class itemClickListener implements AdapterView.OnItemClickListener {
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String data = (String)parent.getItemAtPosition(position);
-        //todo 获取到点击位置跳转
+    private class itemClickListener implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            String data = (String)parent.getItemAtPosition(position);
+            //todo 获取到点击位置跳转
+        }
     }
 }
+

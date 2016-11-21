@@ -17,6 +17,10 @@
         </activity>
         <activity android:name=".ManagerMainActivity">
         </activity>
+        <activity android:name=".addUserActivity">
+        </activity>
+        <activity android:name=".addStudentActivity">
+        </activity>
     </application>
 
 </manifest>
