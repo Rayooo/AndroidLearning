@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 /**
  * Created by Ray on 2016/11/19.
  */
-public class addData extends Activity {
+public class AddData extends Activity {
 
     //增加管理员方法
     public void addManager(){

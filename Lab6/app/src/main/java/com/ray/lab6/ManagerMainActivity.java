@@ -21,7 +21,6 @@ public class ManagerMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager_main);
         showUser(null);
-        //todo 添加学生或是添加管理员结束后能自动刷新列表
     }
 
     public void showUser(View v){
@@ -86,11 +85,12 @@ public class ManagerMainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.addNewUser:
-                Intent intent = new Intent(this,addUserActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(this,AddUserActivity.class);
+                startActivityForResult(intent, 1);
                 return true;
             case R.id.addNewStudent:
-                //todo 新建学生
+                Intent intentToStudent = new Intent(this,AddStudentActivity.class);
+                startActivityForResult(intentToStudent, 1);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -102,6 +102,18 @@ public class ManagerMainActivity extends AppCompatActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             String data = (String)parent.getItemAtPosition(position);
             //todo 获取到点击位置跳转
+            // TODO: 2016/11/24 重写adapter 
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1 && resultCode == RESULT_OK){
+            if(data.getStringExtra("from").equals("addUser")){
+                showUser(null);
+            }
+            else if(data.getStringExtra("from").equals("addStudent")){
+                showStudent(null);
+            }
         }
     }
 }

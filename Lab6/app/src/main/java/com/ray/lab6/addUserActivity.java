@@ -1,6 +1,7 @@
 package com.ray.lab6;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
-public class addUserActivity extends AppCompatActivity {
+public class AddUserActivity extends AppCompatActivity {
 
     private boolean isManager = true;
 
@@ -61,6 +62,12 @@ public class addUserActivity extends AppCompatActivity {
                     contentValues.put("userType","M");
                     db.insert("user",null,contentValues);
                     Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show();
+
+                    //返回
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("from", "addUser");
+                    setResult(RESULT_OK,returnIntent);
+                    finish();
                 }
                 else{
                     //检查学号是否有用户被注册
@@ -78,6 +85,13 @@ public class addUserActivity extends AppCompatActivity {
                             contentValues.put("studentCode", studentCode);
                             db.insert("user",null,contentValues);
                             Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show();
+
+                            //返回
+                            Intent returnIntent = new Intent();
+                            returnIntent.putExtra("from", "addUser");
+                            setResult(RESULT_OK,returnIntent);
+                            finish();
+
                         }
                         else{
                             //不存在学生
