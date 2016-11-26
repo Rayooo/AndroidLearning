@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,7 +31,7 @@ public class ManagerMainActivity extends AppCompatActivity {
         showUserButton.setChecked(true);
         showStudentButton.setChecked(false);
 
-        List<String> data = new ArrayList<>();
+        List<Person> data = new ArrayList<>();
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
@@ -39,12 +40,12 @@ public class ManagerMainActivity extends AppCompatActivity {
         while (cursor.moveToNext()){
             String userName = cursor.getString(cursor.getColumnIndex("userName"));
             int id = cursor.getInt(cursor.getColumnIndex("id"));
-            data.add(userName);
+            data.add(new Person(userName,Integer.toString(id),"user"));
         }
         cursor.close();
 
         ListView listView = (ListView)findViewById(R.id.listView);
-        listView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_expandable_list_item_1,data));
+        listView.setAdapter(new PersonAdapter(this, R.layout.item_person, data));
         listView.setOnItemClickListener(new itemClickListener());
     }
 
@@ -55,7 +56,7 @@ public class ManagerMainActivity extends AppCompatActivity {
         showUserButton.setChecked(false);
         showStudentButton.setChecked(true);
 
-        List<String> data = new ArrayList<>();
+        List<Person> data = new ArrayList<>();
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
@@ -64,12 +65,13 @@ public class ManagerMainActivity extends AppCompatActivity {
         while (cursor.moveToNext()){
             String studentName = cursor.getString(cursor.getColumnIndex("name"));
             String code = cursor.getString(cursor.getColumnIndex("code"));
-            data.add(studentName);
+
+            data.add(new Person(studentName,code,"student"));
         }
         cursor.close();
 
         ListView listView = (ListView)findViewById(R.id.listView);
-        listView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_expandable_list_item_1,data));
+        listView.setAdapter(new PersonAdapter(this,R.layout.item_person,data));
         listView.setOnItemClickListener(new itemClickListener());
     }
 
@@ -100,7 +102,17 @@ public class ManagerMainActivity extends AppCompatActivity {
     private class itemClickListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            String data = (String)parent.getItemAtPosition(position);
+            Person person = (Person)parent.getItemAtPosition(position);
+            Log.i("name",person.getName());
+            Log.i("id", person.getPrimaryKey());
+            Log.i("type", person.getType());
+            //根据student和user类型跳转
+            if(person.getType().equals("user")){
+                Intent intent = new Intent(getApplicationContext(),EditUserInfoActivity.class);
+                intent.putExtra("id",person.getPrimaryKey());
+                intent.putExtra("type",person.getType());
+                startActivityForResult(intent, 1);
+            }
             //todo 获取到点击位置跳转
             // TODO: 2016/11/24 重写adapter 
         }

@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE student(" +
-                "code TEXT UNIQUE," +
+                "code TEXT UNIQUE PRIMARY KEY," +
                 "name TEXT," +
                 "sex TEXT," +
                 "mobile TEXT," +

@@ -18,8 +18,8 @@ public class AddUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_user);
 
-        RadioGroup radgroup = (RadioGroup) findViewById(R.id.radioGroup);
-        radgroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        RadioGroup radiogroup = (RadioGroup) findViewById(R.id.radioGroup);
+        radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton radbtn = (RadioButton) findViewById(checkedId);
