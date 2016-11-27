@@ -120,7 +120,7 @@ public class ManagerMainActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == 1 && resultCode == RESULT_OK){
-            if(data.getStringExtra("from").equals("addUser")){
+            if(data.getStringExtra("from").equals("addUser") || data.getStringExtra("from").equals("editUser")){
                 showUser(null);
             }
             else if(data.getStringExtra("from").equals("addStudent")){
