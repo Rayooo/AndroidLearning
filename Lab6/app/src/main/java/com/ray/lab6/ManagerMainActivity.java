@@ -113,8 +113,11 @@ public class ManagerMainActivity extends AppCompatActivity {
                 intent.putExtra("type",person.getType());
                 startActivityForResult(intent, 1);
             }
-            //todo 获取到点击位置跳转
-            // TODO: 2016/11/24 重写adapter 
+            else if(person.getType().equals("student")){
+                Intent intent = new Intent(getApplicationContext(),EditStudentInfoActivity.class);
+                intent.putExtra("code",person.getPrimaryKey());
+                startActivityForResult(intent, 1);
+            }
         }
     }
 
@@ -123,7 +126,7 @@ public class ManagerMainActivity extends AppCompatActivity {
             if(data.getStringExtra("from").equals("addUser") || data.getStringExtra("from").equals("editUser")){
                 showUser(null);
             }
-            else if(data.getStringExtra("from").equals("addStudent")){
+            else if(data.getStringExtra("from").equals("addStudent") || data.getStringExtra("from").equals("editStudent")){
                 showStudent(null);
             }
         }

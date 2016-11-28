@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context="com.ray.lab6.EditStudentInfoActivity">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="       姓名"
+            android:id="@+id/nameTextView" android:layout_alignParentTop="true" android:layout_alignParentStart="true"
+            android:textSize="20dp" android:gravity="center_vertical|right" android:layout_alignBottom="@+id/nameEditText"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/nameEditText" android:layout_alignParentTop="true" android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/nameTextView"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="学号"
+            android:id="@+id/codeTextView"
+            android:textSize="20dp" android:gravity="center_vertical|right"
+            android:layout_below="@+id/nameTextView" android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/codeEditText"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/codeEditText"
+            android:layout_alignBaseline="@+id/codeTextView" android:layout_alignBottom="@+id/codeTextView"
+            android:layout_alignParentEnd="true" android:layout_toEndOf="@+id/nameTextView"/>
+
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  性别"
+            android:textSize="20dp"
+            android:gravity="center_vertical|right"
+            android:id="@+id/sexTypeTextView"
+            android:layout_below="@+id/codeTextView" android:layout_alignParentStart="true"
+            android:layout_above="@+id/mobileEditText" android:layout_toStartOf="@+id/codeEditText"/>
+
+
+    <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/codeEditText" android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/codeTextView">
+
+        <RadioButton
+                android:id="@+id/maleRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="男"
+                android:checked="true"/>
+
+        <RadioButton
+                android:id="@+id/femaleRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="女"/>
+    </RadioGroup>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="手机号"
+            android:id="@+id/mobileTextView"
+            android:gravity="center_vertical|right"
+            android:textSize="20dp" android:layout_below="@+id/sexTypeTextView" android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/codeEditText" android:layout_alignBottom="@+id/mobileEditText"/>
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mobileEditText" android:layout_below="@+id/radioGroup"
+            android:layout_alignParentEnd="true" android:layout_toEndOf="@+id/mobileTextView"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="地址"
+            android:id="@+id/addressTextView"
+            android:layout_below="@+id/mobileTextView" android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/addressEditText" android:layout_alignBottom="@+id/addressEditText"
+            android:gravity="center_vertical|right" android:textSize="20dp"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addressEditText"
+            android:layout_below="@+id/mobileEditText" android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/mobileTextView"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修改"
+            android:id="@+id/modifyButton"
+            android:onClick="modify"
+            android:layout_centerVertical="true" android:layout_toEndOf="@+id/addressTextView"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="删除"
+            android:id="@+id/deleteStudent"
+            android:onClick="deleteStudent"
+            android:layout_alignTop="@+id/modifyButton" android:layout_toEndOf="@+id/modifyButton"/>
+
+
+</RelativeLayout>
