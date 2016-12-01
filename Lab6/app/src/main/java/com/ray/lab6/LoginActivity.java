@@ -44,6 +44,9 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else{
                     //todo 学生跳转
+                    Intent intent = new Intent(this,EditStudentUserInfoActivity.class);
+                    intent.putExtra("userId",cursor.getString(cursor.getColumnIndex("id")));
+                    startActivity(intent);
                 }
             }
             else{
