@@ -2,8 +2,10 @@ package com.ray.lab6;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,10 +15,17 @@ import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        ((EditText)findViewById(R.id.userName)).setText(preferences.getString("account",""));
+        ((EditText)findViewById(R.id.password)).setText(preferences.getString("password",""));
+
     }
 
 
@@ -36,6 +45,11 @@ public class LoginActivity extends AppCompatActivity {
             String userNameFromDB = cursor.getString(cursor.getColumnIndex("userName"));
             String passwordFromDB = cursor.getString(cursor.getColumnIndex("password"));
             if(userName.equals(userNameFromDB) && password.equals(passwordFromDB)){
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("account",userNameFromDB);
+                editor.putString("password",passwordFromDB);
+                editor.apply();
+
                 //登陆成功,跳转
                 if(cursor.getString(cursor.getColumnIndex("userType")).equals("M")){
                     //管理员跳转
