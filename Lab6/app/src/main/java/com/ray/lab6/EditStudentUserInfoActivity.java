@@ -1,5 +1,6 @@
 package com.ray.lab6;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 public class EditStudentUserInfoActivity extends AppCompatActivity {
 
@@ -73,8 +75,54 @@ public class EditStudentUserInfoActivity extends AppCompatActivity {
         String newMobile = ((EditText)findViewById(R.id.mobileEditText)).getText().toString();
         String newAddress = ((EditText)findViewById(R.id.addressEditText)).getText().toString();
         RadioGroup rg = (RadioGroup)findViewById(R.id.radioGroup);
-        String sex = ((RadioButton)this.findViewById(rg.getCheckedRadioButtonId())).getText().toString();
+        String newSex = ((RadioButton)this.findViewById(rg.getCheckedRadioButtonId())).getText().toString();
 
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        Cursor cursor;
+        boolean canEdit = true;
+        String errorMessage = "";
+        if(!newUserName.equals(userName)){
+            cursor = db.rawQuery("SELECT * FROM user WHERE userName=?", new String[]{newUserName});
+            if(cursor.moveToNext()){
+                canEdit = false;
+                errorMessage = "已存在相同用户名";
+            }
+            else{
+                canEdit = true;
+            }
+        }
+        if(canEdit && !newStudentCode.equals(studentCode)){
+            cursor = db.rawQuery("SELECT * FROM user WHERE studentCode=?", new String[]{newStudentCode});
+            if(cursor.moveToNext()){
+                canEdit = false;
+                errorMessage = "该学号已被使用";
+            }
+            else{
+                canEdit = true;
+            }
+            cursor.close();
+        }
+        //根据能否更新来进行下一步操作
+        if(!canEdit){
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+        }
+        else{
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("name", newName);
+            contentValues.put("code", newStudentCode);
+            contentValues.put("sex", newSex);
+            contentValues.put("mobile", newMobile);
+            contentValues.put("address", newAddress);
+            db.update("student", contentValues,"code=?",new String[]{studentCode});
+
+            ContentValues userContentValues = new ContentValues();
+            userContentValues.put("userName", newUserName);
+            userContentValues.put("password",newPassword);
+            userContentValues.put("studentCode",newStudentCode);
+            db.update("user", userContentValues, "id=?", new String[]{userId});
+            Toast.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
+        }
 
 
 
