@@ -1,5 +1,6 @@
 package com.ray.lab7;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
@@ -72,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
             Log.i("mobile",person.getMobile());
             Log.i("id",person.getId());
         }
+    }
+
+    public void addPerson(View v){
+        Intent intent = new Intent(this, AddContactActivity.class);
+        startActivity(intent);
     }
 
 

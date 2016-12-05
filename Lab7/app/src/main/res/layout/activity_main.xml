@@ -33,24 +33,28 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="添加联系人"
+                android:onClick="addPerson"
                 android:id="@+id/addPersonButton" />
         <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="退出通讯录"
+                android:onClick="exitPerson"
                 android:id="@+id/exitPersonButton" />
         <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="编辑联系人"
+                android:onClick="editPerson"
                 android:id="@+id/editPersonButton" />
         <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="查看联系人"
+                android:onClick="showPersonInfo"
                 android:id="@+id/showPersonInfoButton" />
     </LinearLayout>
 
