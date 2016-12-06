@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="退出通讯录"
-                android:onClick="exitPerson"
+                android:onClick="exitContact"
                 android:id="@+id/exitPersonButton" />
         <Button
                 android:layout_width="match_parent"

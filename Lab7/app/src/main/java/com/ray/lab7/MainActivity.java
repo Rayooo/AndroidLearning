@@ -44,13 +44,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void readContacts() {
         try {
-            Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,null,null,null);
+            Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null);
             while (cursor != null && cursor.moveToNext()){
                 //联系人姓名
-                String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
-                Person person = new Person(displayName,number,id);
+                String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                String telNumber = "",phoneNumber = "";
+                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                int phoneCount = cursor.getInt(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+                if (phoneCount > 0) {
+                    // 获得联系人的电话号码
+                    Cursor phones = getContentResolver().query(
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + id, null, null);
+                    while (phones.moveToNext()){
+                        // 遍历所有的电话号码
+                        int phoneType = phones.getInt(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+                        phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+                    }
+                }
+                Person person = new Person(displayName,phoneNumber,id);
                 contactsList.add(person);
             }
             if (cursor != null) {
@@ -64,14 +78,11 @@ public class MainActivity extends AppCompatActivity {
     private class listViewClickListener implements AdapterView.OnItemClickListener{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Person person = (Person)parent.getItemAtPosition(position);
+            currentPerson = (Person)parent.getItemAtPosition(position);
             //设置按钮可见
             ((Button)findViewById(R.id.editPersonButton)).setVisibility(View.VISIBLE);
             ((Button)findViewById(R.id.showPersonInfoButton)).setVisibility(View.VISIBLE);
 
-            Log.i("name",person.getName());
-            Log.i("mobile",person.getMobile());
-            Log.i("id",person.getId());
         }
     }
 
@@ -80,5 +91,17 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void exitContact(View v){
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+        homeIntent.addCategory( Intent.CATEGORY_HOME );
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(homeIntent);
+    }
+
+    public void editPerson(View v){
+        Intent intent = new Intent(this, EditContactActivity.class);
+        intent.putExtra("id",currentPerson.getId());
+        startActivity(intent);
+    }
 
 }
