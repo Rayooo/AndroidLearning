@@ -8,12 +8,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class EditContactActivity extends AppCompatActivity {
 
-    ContactInfo contactInfo;
+    private ContactInfo contactInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +33,18 @@ public class EditContactActivity extends AppCompatActivity {
 
     public void modifyContact(View v){
         String name = ((EditText)findViewById(R.id.nameEditText)).getText().toString();
-        contactInfo.setName(name,this);
+        String phoneNumber = ((EditText)findViewById(R.id.mobileEditText)).getText().toString();
+        String telNumber = ((EditText)findViewById(R.id.phoneEditText)).getText().toString();
+        String address = ((EditText)findViewById(R.id.addressEditText)).getText().toString();
+        String email = ((EditText)findViewById(R.id.emailEditText)).getText().toString();
+        String website = ((EditText)findViewById(R.id.indexMobileEditText)).getText().toString();
 
+        contactInfo.setInfo(name,telNumber,phoneNumber,website,address,email,this);
+        Toast.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
+        //返回
+        Intent returnIntent = new Intent();
+        setResult(RESULT_OK,returnIntent);
+        finish();
     }
 
     public void removeContact(View v){

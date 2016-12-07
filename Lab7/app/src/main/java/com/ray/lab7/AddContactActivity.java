@@ -1,11 +1,13 @@
 package com.ray.lab7;
 
 import android.content.ContentProviderOperation;
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -93,6 +95,12 @@ public class AddContactActivity extends AppCompatActivity {
 
         try {
             getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+            Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show();
+
+            //返回
+            Intent returnIntent = new Intent();
+            setResult(RESULT_OK,returnIntent);
+            finish();
         } catch (Exception e) {
             e.printStackTrace();
         }

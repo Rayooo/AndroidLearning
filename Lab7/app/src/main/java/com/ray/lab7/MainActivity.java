@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayAdapter<Person> adapter;
 
-    private List<Person> contactsList = new ArrayList<>();
+    private List<Person> contactsList;
 
     private Person currentPerson;
 
@@ -36,13 +36,22 @@ public class MainActivity extends AppCompatActivity {
         contactsListView.setAdapter(adapter);
         contactsListView.setOnItemClickListener(new listViewClickListener());
 
-        //设置按钮不可见
         ((Button)findViewById(R.id.editPersonButton)).setVisibility(View.GONE);
         ((Button)findViewById(R.id.showPersonInfoButton)).setVisibility(View.GONE);
 
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        readContacts();
+        adapter = new PersonAdapter(this, R.layout.adapter_person,contactsList);
+        contactsListView.setAdapter(adapter);
+
+        ((Button)findViewById(R.id.editPersonButton)).setVisibility(View.GONE);
+        ((Button)findViewById(R.id.showPersonInfoButton)).setVisibility(View.GONE);
+    }
+
     private void readContacts() {
+        contactsList = new ArrayList<>();
         try {
             Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null);
             while (cursor != null && cursor.moveToNext()){
@@ -88,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void addPerson(View v){
         Intent intent = new Intent(this, AddContactActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     public void exitContact(View v){
@@ -101,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     public void editPerson(View v){
         Intent intent = new Intent(this, EditContactActivity.class);
         intent.putExtra("id",currentPerson.getId());
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
 }

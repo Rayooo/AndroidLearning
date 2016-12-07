@@ -1,10 +1,15 @@
 package com.ray.lab7;
 
-import android.content.ContentValues;
-import android.content.Context;
+import android.content.*;
 import android.database.Cursor;
+import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Ray on 2016/12/6.
@@ -164,7 +169,6 @@ public class ContactInfo {
     }
 
     public void setName(String name,Context context) {
-        this.name = name;
         ContentValues contentValues = new ContentValues();
         contentValues.put(ContactsContract.Contacts.DISPLAY_NAME,name);
         context.getContentResolver().update(ContactsContract.Contacts.CONTENT_URI, contentValues, ContactsContract.Contacts._ID + "=" + id, null);
@@ -190,4 +194,66 @@ public class ContactInfo {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public void setInfo(String name, String telNumber, String phoneNumber, String website, String address, String email, Context context){
+        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+
+        String phonewhere = ContactsContract.Data.CONTACT_ID + "=? AND " + ContactsContract.CommonDataKinds.Phone.TYPE + "=?";
+        String[] phoneparams = new String[]{id,String.valueOf(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)};
+        ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                .withSelection(phonewhere, phoneparams)
+                //手机号
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, phoneNumber)
+                .build());
+
+        String namewhere = ContactsContract.Data.CONTACT_ID + "=? AND " + ContactsContract.CommonDataKinds.StructuredName.MIMETYPE + "=?";
+        String[] nameparams = new String[]{id,String.valueOf(ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)};
+        ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                .withSelection(namewhere,nameparams)
+                //姓名
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, name)
+                .build());
+
+        String telwhere = ContactsContract.Data.CONTACT_ID + "=? AND " + ContactsContract.CommonDataKinds.Phone.TYPE + "=?";
+        String[] telparams = new String[]{id,String.valueOf(ContactsContract.CommonDataKinds.Phone.TYPE_HOME)};
+        ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                .withSelection(telwhere,telparams)
+                //座机
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, telNumber)
+                .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_HOME)
+                .build());
+
+        String emailwhere = ContactsContract.Data.CONTACT_ID + "=? AND " + ContactsContract.CommonDataKinds.Email.MIMETYPE + "=?";
+        String[] emailparams = new String[]{id,String.valueOf(ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)};
+        ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                .withSelection(emailwhere,emailparams)
+                //邮箱
+                .withValue(ContactsContract.CommonDataKinds.Email.DATA, email)
+                .build());
+
+        String addresswhere = ContactsContract.Data.CONTACT_ID + "=? AND " + ContactsContract.CommonDataKinds.StructuredPostal.MIMETYPE + "=? ";
+        String[] addressparams = new String[]{id,String.valueOf(ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE)};
+        ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                //地址
+                .withSelection(addresswhere,addressparams)
+                .withValue(ContactsContract.CommonDataKinds.StructuredPostal.DATA, address)
+                .build());
+
+        String homepagewhere = ContactsContract.Data.CONTACT_ID + "=? AND " + ContactsContract.CommonDataKinds.Website.MIMETYPE + "=?";
+        String[] homepageparams = new String[]{id,String.valueOf(ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE)};
+        ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                .withSelection(homepagewhere,homepageparams)
+                //主页
+                .withValue(ContactsContract.CommonDataKinds.Website.DATA, website)
+                .build());
+
+        try {
+            ContentProviderResult[] res = context.getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+        } catch (RemoteException | OperationApplicationException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
