@@ -8,7 +8,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        tools:context="com.ray.lab7.EditContactActivity">
+        tools:context="com.ray.lab7.ShowContactActivity">
 
     <TextView
             android:layout_width="wrap_content"
@@ -26,7 +26,8 @@
             android:id="@+id/nameEditText"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/nameTextView"/>
+            android:editable="false"
+            android:layout_toEndOf="@+id/nameTextView" />
 
     <TextView
             android:layout_width="wrap_content"
@@ -45,6 +46,7 @@
             android:id="@+id/mobileEditText"
             android:layout_below="@+id/nameEditText"
             android:layout_alignParentEnd="true"
+            android:editable="false"
             android:layout_alignStart="@+id/nameEditText"/>
 
 
@@ -64,6 +66,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/phoneEditText"
             android:layout_below="@+id/mobileEditText"
+            android:editable="false"
             android:layout_alignParentEnd="true"
             android:layout_alignStart="@+id/mobileEditText"/>
 
@@ -84,6 +87,7 @@
             android:id="@+id/addressEditText"
             android:layout_below="@+id/phoneEditText"
             android:layout_alignParentEnd="true"
+            android:editable="false"
             android:layout_alignStart="@+id/phoneEditText"/>
 
 
@@ -104,6 +108,7 @@
             android:id="@+id/emailEditText"
             android:layout_below="@+id/addressEditText"
             android:layout_alignParentEnd="true"
+            android:editable="false"
             android:layout_alignStart="@+id/addressEditText"/>
 
 
@@ -124,22 +129,46 @@
             android:id="@+id/indexMobileEditText"
             android:layout_below="@+id/emailEditText"
             android:layout_alignParentEnd="true"
+            android:editable="false"
             android:layout_alignStart="@+id/emailEditText"/>
 
+    <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_below="@id/listView"
+            android:gravity = "center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/linearLayout">
 
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="修改"
-            android:onClick="modifyContact"
-            android:id="@+id/okButton" android:layout_below="@+id/indexMobileEditText"
-            android:layout_toEndOf="@+id/indexTextView" android:layout_marginStart="42dp"/>
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="删除联系人"
-            android:onClick="removeContact"
-            android:id="@+id/removeContact" android:layout_alignTop="@+id/okButton" android:layout_toEndOf="@+id/okButton"/>
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="返回列表"
+                android:onClick="back"
+                android:id="@+id/addPersonButton" />
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="删除联系人"
+                android:onClick="deleteContact"
+                android:id="@+id/exitPersonButton" />
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="编辑联系人"
+                android:onClick="editContact"
+                android:id="@+id/editPersonButton" />
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="呼叫联系人"
+                android:onClick="callContact"
+                android:id="@+id/showPersonInfoButton" />
+    </LinearLayout>
 
 
 

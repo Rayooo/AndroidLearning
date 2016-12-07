@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.ray.lab7">
 
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
 
@@ -21,6 +22,8 @@
         <activity android:name=".AddContactActivity">
         </activity>
         <activity android:name=".EditContactActivity">
+        </activity>
+        <activity android:name=".ShowContactActivity">
         </activity>
     </application>
 

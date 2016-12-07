@@ -1,29 +1,30 @@
 package com.ray.lab7;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.provider.ContactsContract;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-
-public class EditContactActivity extends AppCompatActivity {
+public class ShowContactActivity extends AppCompatActivity {
 
     private ContactInfo contactInfo;
+    private String id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_contact);
-        setTitle("编辑联系人");
+        setContentView(R.layout.activity_show_contact);
+        setTitle("联系人信息");
 
         Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
+        id = intent.getStringExtra("id");
+        refresh();
+    }
 
+    private void refresh(){
         contactInfo = new ContactInfo(id,this);
         ((EditText)findViewById(R.id.nameEditText)).setText(contactInfo.getName());
         ((EditText)findViewById(R.id.mobileEditText)).setText(contactInfo.getPhoneNumber());
@@ -33,28 +34,34 @@ public class EditContactActivity extends AppCompatActivity {
         ((EditText)findViewById(R.id.indexMobileEditText)).setText(contactInfo.getWebsite());
     }
 
-    public void modifyContact(View v){
-        String name = ((EditText)findViewById(R.id.nameEditText)).getText().toString();
-        String phoneNumber = ((EditText)findViewById(R.id.mobileEditText)).getText().toString();
-        String telNumber = ((EditText)findViewById(R.id.phoneEditText)).getText().toString();
-        String address = ((EditText)findViewById(R.id.addressEditText)).getText().toString();
-        String email = ((EditText)findViewById(R.id.emailEditText)).getText().toString();
-        String website = ((EditText)findViewById(R.id.indexMobileEditText)).getText().toString();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        refresh();
+    }
 
-        contactInfo.setInfo(name,telNumber,phoneNumber,website,address,email,this);
-        Toast.makeText(this, "修改成功", Toast.LENGTH_SHORT).show();
+
+    public void back(View v){
+        Intent returnIntent = new Intent();
+        setResult(RESULT_OK,returnIntent);
+        finish();
+    }
+
+    public void deleteContact(View v){
+        contactInfo.deleteContact(this);
         //返回
         Intent returnIntent = new Intent();
         setResult(RESULT_OK,returnIntent);
         finish();
     }
 
-    public void removeContact(View v){
-        contactInfo.deleteContact(this);
-        //返回
-        Intent returnIntent = new Intent();
-        setResult(RESULT_OK,returnIntent);
-        finish();
+    public void editContact(View v){
+        Intent intent = new Intent(this, EditContactActivity.class);
+        intent.putExtra("id",contactInfo.getId());
+        startActivityForResult(intent, 1);
+    }
+
+    public void callContact(View v){
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contactInfo.getPhoneNumber()));
+        startActivity(intent);
     }
 
 }

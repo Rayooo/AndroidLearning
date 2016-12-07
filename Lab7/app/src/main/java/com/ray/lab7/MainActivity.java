@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("联系人列表");
 
         contactsListView = (ListView)findViewById(R.id.listView);
         readContacts();
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void addPerson(View v){
+    public void addContact(View v){
         Intent intent = new Intent(this, AddContactActivity.class);
         startActivityForResult(intent, 1);
     }
@@ -107,8 +108,14 @@ public class MainActivity extends AppCompatActivity {
         startActivity(homeIntent);
     }
 
-    public void editPerson(View v){
+    public void editContact(View v){
         Intent intent = new Intent(this, EditContactActivity.class);
+        intent.putExtra("id",currentPerson.getId());
+        startActivityForResult(intent, 1);
+    }
+
+    public void showContactInfo(View v){
+        Intent intent = new Intent(this, ShowContactActivity.class);
         intent.putExtra("id",currentPerson.getId());
         startActivityForResult(intent, 1);
     }
