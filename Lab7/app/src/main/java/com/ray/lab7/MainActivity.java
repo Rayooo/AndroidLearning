@@ -1,8 +1,10 @@
 package com.ray.lab7;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,17 +34,16 @@ public class MainActivity extends AppCompatActivity {
         setTitle("联系人列表");
 
         contactsListView = (ListView)findViewById(R.id.listView);
-        readContacts();
-        adapter = new PersonAdapter(this, R.layout.adapter_person,contactsList);
-        contactsListView.setAdapter(adapter);
         contactsListView.setOnItemClickListener(new listViewClickListener());
-
-        ((Button)findViewById(R.id.editPersonButton)).setVisibility(View.GONE);
-        ((Button)findViewById(R.id.showPersonInfoButton)).setVisibility(View.GONE);
-
+        contactsListView.setOnItemLongClickListener(new listViewLongPressClickListener());
+        doRefresh();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        doRefresh();
+    }
+
+    private void doRefresh(){
         readContacts();
         adapter = new PersonAdapter(this, R.layout.adapter_person,contactsList);
         contactsListView.setAdapter(adapter);
@@ -93,6 +94,26 @@ public class MainActivity extends AppCompatActivity {
             ((Button)findViewById(R.id.editPersonButton)).setVisibility(View.VISIBLE);
             ((Button)findViewById(R.id.showPersonInfoButton)).setVisibility(View.VISIBLE);
 
+        }
+    }
+
+    private class  listViewLongPressClickListener implements AdapterView.OnItemLongClickListener{
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            currentPerson = (Person)parent.getItemAtPosition(position);
+            CharSequence colors[] = new CharSequence[] {"删除"};
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle(currentPerson.getName());
+            builder.setItems(colors, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ContactInfo contactInfo = new ContactInfo(currentPerson.getId(),MainActivity.this);
+                    contactInfo.deleteContact(MainActivity.this);
+                    doRefresh();
+                }
+            });
+            builder.show();
+            return false;
         }
     }
 

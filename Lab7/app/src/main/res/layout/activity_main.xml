@@ -16,6 +16,7 @@
             android:id="@+id/listView"
             android:choiceMode="singleChoice"
             android:listSelector="#ffc53d"
+            android:longClickable="true"
             />
 
 
